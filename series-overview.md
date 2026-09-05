@@ -1,7 +1,7 @@
 # AI Foundation 系列元信息
 
-> 各底座项目 `CLAUDE.md` 通过 `@../ai-foundation-memory/series-overview.md` 导入本文件。
-> 内容变化只改这一份，所有项目会话自动生效。
+> 各仓（底座/桥/能力层/review）根目录的 `CLAUDE.md` 是**符号链接** → `ai-foundation-memory/claude/<仓名>.md`（收编单源，见 ai-foundation-memory 仓 CLAUDE.md「收编机制」节；重装后跑其 `bootstrap.sh` 重建）。本文件经 `@../ai-foundation-memory/series-overview.md` 由各仓 `CLAUDE.md` 导入。
+> 内容变化只改这一份，所有项目会话自动生效。**改某仓 CLAUDE.md = 改 `ai-foundation-memory/claude/<仓名>.md`，再提交该私有仓。**
 
 ## 系列目的
 
