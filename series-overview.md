@@ -56,6 +56,8 @@
 
 **待办（主线）——2026-09-05 整理**（已完成项已归档，历史见各仓提交与 ai-foundation-review 报告）
 
+**主线方向（2026-09-05 定稿，未立项未动码）**：下阶段主线 = **authoring 规格链**（一句话 → 可运行系统：每段接缝的规格生产能力，规格 schema/玩法/校验 + 现期 spec/authoring MCP 面；上游规格仓 `authoring-spec`（待命名）承载，dogfood 临时目录）。完整决议/证伪条件/落地拆分见同仓 `direction-spec-chain.md`。本表"仅剩"待办是它的下游承接，不冲突。
+
 ✅ 已收口：生成能力架构重构（桥 N≥2 + Click CLI + clone/baked）；bridge-mcp-server 评审收敛跨仓改动 ①-④（协议 v2 两区 / 三底座 selection+CI / 桥内省面 + R1/A2 + shared / 生成面 server，均已合 main 推送）。
 
 **仅剩（均依赖未来组合 / 新底座，非当前阻塞）**：
