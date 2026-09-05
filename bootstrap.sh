@@ -13,7 +13,7 @@ ROOT="${1:-$HOME/project}"
 MEM="$ROOT/ai-foundation-memory"
 STORE="$MEM/claude"
 
-# 需要收编的系列仓（无 CLAUDE.md 的仓（如 fullstack-param-protocol）不在此列）
+# 需要收编的系列仓
 REPOS=(
   fullstack-bridge
   python-fastapi-template
@@ -22,6 +22,7 @@ REPOS=(
   frontend-template-copier
   bridge-mcp-server
   ai-foundation-review
+  fullstack-param-protocol
 )
 
 echo "项目根: $ROOT"
