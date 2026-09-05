@@ -1,23 +1,33 @@
-# ai-foundation-memory · AI Foundation 系列记忆与规划工作区
+# ai-foundation-memory · AI Foundation 系列记忆、收编与规划工作区
 
-本目录承载两件事：
+本目录承载三件事（**私有 git 仓**，远端 `git@github.com:jianghua-developer/ai-foundation-memory.git`）：
 1. **系列元信息唯一事实源** —— `series-overview.md`，被各底座/桥/壳仓 `CLAUDE.md` 以 `@../ai-foundation-memory/series-overview.md` 导入；改一处、全系列会话生效。
-2. **未来系列方向规划工作区** —— 在本目录直接开会话 = 在做系列级事（整理/同步元信息，或规划未来方向）。规划产物用**独立文档**沉淀，不塞进 series-overview。
+2. **各仓本地 CLAUDE.md 的 canonical 收编仓** —— `claude/<repo>.md`；各仓 `~/project/<repo>/CLAUDE.md` 是指向它的符号链接（bootstrap.sh 重建）。CLAUDE.md 属本地 Claude 资产、不入各仓 git（系列通例），集中到本仓随私有 git 版本化防丢。
+3. **未来系列方向规划工作区** —— 在本目录直接开会话 = 在做系列级事（整理/同步元信息，或规划未来方向）。规划产物用**独立文档**沉淀，不塞进 series-overview。
 
 系列事实在下方 `@./series-overview.md` 导入（与各仓同源）；本文件只约定「在本目录怎么做」，不复制系列事实。
 
 ## 文件与职责
 
 - `series-overview.md` — 系列事实唯一一份：系列目的 / 总体设计思路 / 目前状态表 / 待办 / 项目位置 / 评审归档约定 / copier 位置。被各仓导入 + 本文件导入，**改动需守下节铁律**。
-- `CLAUDE.md`（本文件） — 本目录操作约定（定位/编辑规则/规划规范/收敛不变量索引）；不对外导入。
+- `CLAUDE.md`（本文件） — 本目录操作约定（定位/编辑规则/收编机制/规划规范/收敛不变量索引）；不对外导入。
+- `claude/<repo>.md` — 各仓本地 CLAUDE.md 的 canonical（单源）。**改某仓的 CLAUDE.md = 改这里对应文件**（各仓根只是 symlink）；收编范围见 bootstrap.sh `REPOS` 数组。
+- `bootstrap.sh` — 一键重建各仓根 CLAUDE.md 符号链接（重装/迁移后 `git clone` 本仓 + 跑它即恢复）。
 - `direction-*.md`（规划时新建） — 一个未来方向一份（见「规划文档」节）。
+
+## CLAUDE.md 收编机制（重装/迁移恢复）
+
+1. `git clone git@github.com:jianghua-developer/ai-foundation-memory.git ~/project/ai-foundation-memory`
+2. 各系列仓就位后跑 `~/project/ai-foundation-memory/bootstrap.sh`（把 `~/project/<repo>/CLAUDE.md` 建成指向 `claude/<repo>.md` 的**相对符号链接**）。
+3. symlink 用相对路径 —— `~/project` 整树搬迁后链接仍存活；canonical 内 `@../ai-foundation-memory/series-overview.md` 相对导入也按 repo 根逻辑路径解析（实证 LOGICAL）。
+4. 新增收编仓 → 把 canonical 放 `claude/<新仓>.md` 并加入 bootstrap.sh `REPOS`；该仓根 `CLAUDE.md` 建 symlink 且确保该仓 `.gitignore` 含 `CLAUDE.md`。
 
 ## series-overview.md 编辑铁律（导入面大 = 高爆炸半径）
 
 - 状态表每行只记「当前态」；演进历史一律指向各仓 git 提交与 ai-foundation-review 报告，**不写回放**。
 - 无通用性的本机/单仓构建约束**禁止写入本目录任何文件**（会被各仓 CLAUDE.md 拉进会话）；要记 → 记对应仓自身 CLAUDE.md。
 - markdown linter 提示（compact 表、fence language 等）视为 cosmetic，不为此重写正文。
-- 本目录**非 git**：改完即生效，无需 commit/push。
+- 本仓**私有 git**：改 series-overview.md / claude/* 后提交推送（同款 commit/push 纪律）。
 
 ## 规划文档（未来系列方向）
 
