@@ -74,8 +74,8 @@
 
 | 项目 | 角色 | 本地 | git |
 | --- | --- | --- | --- |
-| ai-foundation-memory | 系列元信息（CLAUDE.md 共享导入） | `~/project/ai-foundation-memory` | 非 git（系列唯一事实源） |
-| ai-foundation-review | 系列 code review 工作区（评审报告归档于 `reports/`，见「评审报告归档」节） | `~/project/ai-foundation-review` | 非 git（跨项目 review 挂载点） |
+| ai-foundation-memory | 系列元信息 + 各仓本地 CLAUDE.md 收编 + 规划工作区（私有） | `~/project/ai-foundation-memory` | `git@github.com:jianghua-developer/ai-foundation-memory.git` |
+| ai-foundation-review | 系列 code review 工作区（评审报告归档于 `reports/`，见「评审报告归档」节；私有） | `~/project/ai-foundation-review` | `git@github.com:jianghua-developer/ai-foundation-review.git` |
 | frontend-template-copier | 前端模板生成器（已退役） | `~/project/frontend-template-copier` | `git@github.com:jianghua-developer/frontend-template-copier`（npm 已发布 0.0.1） |
 | fullstack-param-protocol | 底座对齐协议仓 | `~/project/fullstack-param-protocol` | `git@github.com:jianghua-developer/fullstack-param-protocol.git` |
 | fullstack-bridge | 前后端连通层 | `~/project/fullstack-bridge` | `git@github.com:jianghua-developer/fullstack-bridge.git` |
@@ -85,7 +85,7 @@
 
 ## 评审报告归档（如何查找）
 
-跨项目 review 由 ai-foundation-review 工作区产出，报告**非 git、长期保留**于，根为 `~/project/ai-foundation-review/reports/`。两类审查位置不同：
+跨项目 review 由 ai-foundation-review 工作区产出，报告**长期保留**于私有仓 `ai-foundation-review`（根 `reports/`，已 git 版本化防丢）。两类审查位置不同：
 
 **① 代码评审（分支/提交级，三档问题）**
 
