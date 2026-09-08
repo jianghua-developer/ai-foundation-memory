@@ -46,6 +46,7 @@
 
 > 均为历轮评审/设计收敛定案，代价高；多数可复用、不值得再争。索引只给归属文档，细节去那读。
 
+- **规范驱动开发（SDD）＝系列心智总纲**：规范是唯一真源与接缝；AI 从规范产出一切实现（代码/真协议/页面）；底座与校验抬下限、判断留壳与人。authoring 规格链（上游 = 规范生产段 fact→spec）与 per-edge 契约层均为其实例 → series-overview「心智模型：SDD」节 + `direction-spec-chain.md`。
 - **面分离（一面一 server）**：生成面与治理面（check/契约维护）不混入同一 MCP server；同仓可并存多 server，各自独立演进 → bridge-mcp-server `docs/DESIGN.md`。
 - **双路径 × 双链**：单端 = 底座协议（params.json 两区）自述、零注册直读、不进桥；多端（N≥2）= 注册组合、**纯 cli** 消费桥生成面；server 不搬生成逻辑、桥不反向长单端逻辑 → bridge-mcp-server `docs/DESIGN.md`。
 - **selection 单一真源 / 两区协议**：`params`（派生+hash）/`selection`（策展+schema、gen-params 轮转保留）分区；深选择事实只在底座写一份；**桥只消费 + 叠加 combo 段不可约事实**，combo 段字段限 suited_for/tradeoffs → fullstack-param-protocol `SCHEMA.md` + fullstack-bridge `docs/DESIGN.md` §8。

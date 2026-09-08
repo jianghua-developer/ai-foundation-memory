@@ -3,6 +3,7 @@
 - 决议日期：2026-09-05（修订 2026-09-08）
 - 决议状态：**方向定稿**（细节设计项留待展开，见 §7，不阻塞方向；2026-09-08 按「authoring 层只出 spec 决策项、底座适配在下游」边界收敛修订 §2/§3/§4/§5/§6/§7，源于 authoring skill 实测反馈）
 - 性质：系列规划文档（本目录）。落地跨仓改动走既定节奏：所属仓 DESIGN 先行 → 分阶段执行 → ai-foundation-review 评审 → 报告归档 → 同步回 series-overview 状态表/待办。
+- 心智归属：本方向 = 系列「**规范驱动开发（SDD）**」在 authoring 层的落地实例——authoring 是规范的生产段（fact→spec，spec = 决策项 + 可执行设计）；SDD 定义见 series-overview「心智模型：SDD」节。
 
 ## 0. 一句话
 
