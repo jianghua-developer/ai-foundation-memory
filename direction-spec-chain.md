@@ -115,14 +115,14 @@
   - **规格/authoring MCP server 面**（authoring-spec 仓内，一面一 server，现期实现）：玩法/规格模板作 resource、规格完整性/可判校验作确定性 tool；DESIGN 定工具边界（不入语义、不搬生成逻辑）；生成面 bridge-mcp-server 不动。
 - **P2（dogfood）**：选真实题材（积分管理系统为候选）→ 人扮演上游跑 authoring 玩法产决策项文档族 → **生成面适配 spec 决策项 → 定参 → 生成** → 下游对照 specs 填业务 → **启动连通冒烟** → 复盘（含页面 L-c 可选增强工序实测）。
 - **P3（回喂）**：底座可运行性 CI、文档漂移自检、dev/`api_base_url` 贯通、CONTRACT 悬挂引用等 dogfood 咬出的债；step3 触发目录内容随各底座 selection（§7）落库。
-- **bridge-mcp-server 生成玩法职责重构（gate：上游 spec→生成路径在 P2 走通后）**：`generate_project_guide` / generate-project skill 的「需求澄清 + 选型引导 + 落参对话」（L0–L3）被上游取代——上游 authoring 只产出 **spec 决策项**（§4 决议 4），不读底座、不选参。生成面玩法改为**读 spec 决策项 → 适配底座菜单（options/selection）→ 定参 → 生成**：需求澄清与产品含义拍板已在上游完成，生成玩法不再引导需求、不做语义猜选型；L3 型用户闸**收窄**为「spec 决策项可被多个底座组合承载时的技术口味确认（如 react/vue）」。authoring 与生成面的契约 = spec 决策项文档族。**保留**：六生成/内省工具、templates.yaml + combos 菜单（= 底座候选集）、server 本体、桥执行链。单端零注册路径是否需最小引导，届时一并评估（不预先删除）。
+- **bridge-mcp-server 生成玩法职责重构（gate：上游 spec→生成路径在 P2 走通后）**：`generate_project_guide` / generate-project skill 的「需求澄清 + 选型引导 + 落参对话」（L0–L3）被上游取代——上游 authoring 只产出 **spec 决策项**（§4 决议 4），不读底座、不选参。生成面玩法改为**读 spec 决策项 → 适配底座菜单（options/selection）→ 定参 → 生成**：需求澄清与产品含义拍板已在上游完成，生成玩法不再引导需求、不做语义猜选型；**技术栈档位（react/vue/底座组合等）不进 spec**——生成侧读底座 **selection 自省**收敛参数（2026-09-08 定）；仅当 selection 无法唯一收敛（多个底座组合等价承载同一决策项组）才给一次技术口味确认（带默认）。authoring 与生成面的契约 = spec 决策项文档族。**保留**：六生成/内省工具、templates.yaml + combos 菜单（= 底座候选集）、server 本体、桥执行链。单端零注册路径是否需最小引导，届时一并评估（不预先删除）。
 - **远期（各带触发）**：T5 生成物升级路径；A2A/跨运行时角色服务（触发 = 出现跨运行时对手方）；ui-bff-api 三单元链；多端实现 dogfood。
 
 ## 7. 细节设计项（留待展开，不阻塞方向）
 
 - func-spec「操作层」的字段与粒度（页面动作 ↔ 端点语义 ↔ 数据流三者绑定）。
 - 页面 L-c 可选增强工序（上游内部）：接入判定 + 产出契约（到语义控件可实现粒度）+ 缺省完整默认视觉；L-b 底座/组件库翻译为**底座侧适配职责**（不作 authoring 项）。
-- **spec 决策项 ↔ 底座 options/selection 适配（生成面/底座侧，非 authoring 层）**：从 spec 决策项文档族推导可选底座组合与参数取值（selection.axes / 假定包络 / 偏离触发 / 越界去向）；authoring 出决策项后该映射为下游设计项（S3 纪律升版：SCHEMA 本表 → 两消费方 SELECTION_FIELDS → 三底座 regen → 桥合并）。
+- **spec 决策项 ↔ 底座 options/selection 适配（生成面/底座侧，非 authoring 层）**：从 spec 决策项文档族推导可选底座组合与参数取值（selection.axes / 假定包络 / 偏离触发 / 越界去向）；**技术栈档位一律以 selection 为唯一来源自省，spec 不携带任何档位偏好**；authoring 出决策项后该映射为下游设计项（S3 纪律升版：SCHEMA 本表 → 两消费方 SELECTION_FIELDS → 三底座 regen → 桥合并）。
 - 工程规格四表模板（data/api/pages/slices）与拆解玩法（含覆盖矩阵/done 定义）。
 - 规格校验的确定性检查项清单（traceability / 规则无歧义 / 操作可落端点）。
 - 需求澄清问题库的"问题类型"结构（跨领域，非领域答案）。
