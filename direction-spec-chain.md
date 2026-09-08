@@ -144,6 +144,8 @@ authoring 设计 ② 不需知道底座——**底座 = 落地时优先复用的
 - 规格校验的确定性检查项清单（traceability / 规则无歧义 / 操作可落端点）。
 - 需求澄清问题库的"问题类型"结构（跨领域，非领域答案）。
 - **互联网调研/时效信息的归属（随层边界下移，2026-09-08）**：authoring 侧推导以用户事实为准，不引入外部选型 rails；若确需行业惯例/时效信息支撑**设计默认建议**（如订单超时常见时长），调研作为 authoring 玩法内的可选语义步骤（归壳执行，必交产物：结论 + 来源 + 日期，仅作默认建议、用户事实仍优先）。底座**参数选取前**的"rails 内调研（菜单有据择一 / 验证时效）、越界走闸"归下游生成面/底座适配段（见本节「spec 决策项 ↔ 底座 options/selection 适配」条）。
+- **契约层（下游立项候选：独立仓 + 独立 MCP 面，SDD「产 edge 规范」实例，2026-09-08 排查）**：消费 spec → 产 **per-edge md 契约**（copier 渲染、协议为模板参数、md 协议感知）；**真协议（.proto/openapi/schema）由各仓 AI 照 md 开发**（AI 实现物，非契约层产物）；语义层一致性校验（前置、确定性）+ 实现后对拍闸。触发 = spec 服务拓扑=拆分 / 多单元（ui-bff 三单元为第一验证点）。spec 输入前提：接口产物三类 + operation→单元归属→edge 集 + 协议决策（authoring P1 schema）。**未对齐待办（立项 DESIGN 前逐条定）**：①与 fullstack-bridge 边界（谁产哪类 edge、防双套契约体系）；②client-facing(api.md) 与 internal edge 是否重复；③事件 1→N 与点对点 edge 载体；④operation→单元→edge 推导链落 spec；⑤edge 语义接口的 answers 可提取粒度；⑥**md 真源 vs AI 产 proto 的漂移管理（SDD vs gRPC 运行时现实，最高优先）**；⑦对拍闸形态（确定性工具 vs AI review）；⑧per-edge md 落点/流转；⑨契约层与生成面（spec→多仓骨架能力扩展）先后与编排。
+- **authoring 层待办（2026-09-08 收尾记录）**：①功能地图相位（LLM 判类型→推功能菜单→用户拍→再收集事实，修"推荐漏引导"）；②spec schema 增补：arch 结构节（服务图/多仓布局建议）、部署形态建议节、接口产物三类 + operation 归属；③skill 按决议 6 / A–F / 设计深度 / 产品名可写作最新版复测（商城应带出推荐、下单端点给机制类别/产品名编排）；④authoring-spec 立项（P1 DESIGN）；⑤dogfood（积分/商城）验证设计深度与契约层输入链。
 
 ## 8. 证据与引用
 
