@@ -23,6 +23,7 @@ REPOS=(
   bridge-mcp-server
   ai-foundation-review
   fullstack-param-protocol
+  ai-foundation-spec-chain
 )
 
 echo "项目根: $ROOT"
