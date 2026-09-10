@@ -90,7 +90,7 @@ SDD 在 authoring 层的落地（上游 = 规范的生产段 fact→spec）见�
 | python-fastapi-template | 后端底座（Python） | `~/project/python-fastapi-template` | `git@github.com:jianghua-developer/python-fastapi-template.git` |
 | vite-react-spa-template | 前端底座（React） | `~/project/vite-react-spa-template` | `git@github.com:jianghua-developer/vite-react-spa-template.git` |
 | vite-vue-spa-template | 前端底座（Vue） | `~/project/vite-vue-spa-template` | `git@github.com:jianghua-developer/vite-vue-spa-template.git` |
-| ai-foundation-spec-chain | 上游 authoring 规格链（SDD 规范生产段；立项 2026-09-08） | `~/project/ai-foundation-spec-chain` | 本地仓（远端待建） |
+| ai-foundation-spec-chain | 上游 authoring 规格链（SDD 规范生产段；立项 2026-09-08） | `~/project/ai-foundation-spec-chain` | `git@github.com:jianghua-developer/ai-foundation-spec-chain.git` |
 
 ## 评审报告归档（如何查找）
 
