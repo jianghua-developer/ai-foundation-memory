@@ -24,7 +24,7 @@
 把 authoring 链从"生成到骨架"延伸到**「一句话 → 可运行系统」**，载体为每段接缝的规格生产能力：
 1. 定义**规格族**与 schema/模板：方向规格 → 功能规格 → 工程规格（见 §3）。
 2. 每段能力三件套：**玩法**（分析师 persona 内联 + 闸）+ **规格 schema/模板** + **确定性校验**。
-3. **壳无关暴露**：玩法/模板作 MCP resource、确定性校验作 MCP tool（与 `generate_project_guide` 同构）；func-spec 文件是接缝真源，落在目标项目目录。
+3. **壳无关暴露**：玩法/模板作 MCP resource、**authoring 运行体作 MCP tool**（黑盒「一句话→spec」）；**确定性校验为本层产物自检的「运行体内部步骤」、不对外暴露**；spec 文档族是接缝真源，落在目标项目目录。
 4. 一次**真实 dogfood**：功能规格驱动现链选型 → 生成 → 拆解实现 → 连通冒烟。
 
 ### 非目标
@@ -58,7 +58,7 @@
 **每段能力的壳无关承载**：
 1. 玩法 = 纯文本 canonical（persona 内联），单一真源在能力层仓，MCP resource 暴露 + 可选壳侧 skill 镜像；
 2. 规格 schema/模板 = 文件/资源；
-3. 校验（确定性）= MCP tool（可选，P1 评估是否值得工具化）。
+3. 校验（确定性）= **运行体内部步骤**（绑本层产物、不对外暴露）；对**任意**设计规格的通用质量检测属另一独立能力（设计规格评审 agent / MCP，见 §7，需要时再立）。
 
 **spec 的设计深度（2026-09-08 定案，深化决议 4）**：spec = **决策项 + 可执行级技术方案**，承载分三层：
 - **① 约束/不变式**——必写，语义可判（原子 / 幂等 / 不超卖 / 不丢…）；
@@ -121,16 +121,16 @@ authoring 设计 ② 不需知道底座——**底座 = 落地时优先复用的
 ## 6. 落地拆分
 
 - **P0（本仓，本次）**：本方向文档定稿；立项决策如下（2026-09-05 定）：
-  - **新立项：上游 authoring 规格仓**（建议名 `authoring-spec`，候选 `ai-foundation-spec-chain` / `fullstack-func-spec`，命名待创建时确认）——承载 ①规格 schema/模板族单一真源（方向/功能/页面设计/架构/接口/数据 **spec 文档族：决策项 + 可执行技术方案**）②玩法素材（authoring 运行体**内部**子玩法，persona 内联）③规格校验 ④**自带规格/authoring MCP server 面**（一面一 server：资源=玩法/模板 + 确定性校验 tool + **authoring 运行体工具**，不入语义）⑤**authoring 运行体（agent）**——对外只暴露 MCP 工具「一句话需求 → spec 设计」（黑盒、不分段）；内部工作流子节点（澄清/功能地图/设计/校验）；中途提问经 elicitation/续跑；状态在目标项目 `specs/`；LLM 适配层（默认借壳 sampling / 可外部传入 / 皆无 fail-fast）；bridge-mcp-server 只镜像/引用不主担。一仓一关注点、有独立会话工作区。
+  - **新立项：上游 authoring 规格仓**（建议名 `authoring-spec`，候选 `ai-foundation-spec-chain` / `fullstack-func-spec`，命名待创建时确认）——承载 ①规格 schema/模板族单一真源（方向/功能/页面设计/架构/接口/数据 **spec 文档族：决策项 + 可执行技术方案**）②玩法素材（authoring 运行体**内部**子玩法，persona 内联）③规格校验 ④**自带规格/authoring MCP server 面**（一面一 server：资源=玩法/模板 + **authoring 运行体工具**；校验为运行体内部步骤、不暴露，不入语义）⑤**authoring 运行体（agent）**——对外只暴露 MCP 工具「一句话需求 → spec 设计」（黑盒、不分段）；内部工作流子节点（澄清/功能地图/设计/校验）；中途提问经 elicitation/续跑；状态在目标项目 `specs/`；LLM 适配层（默认借壳 sampling / 可外部传入 / 皆无 fail-fast）；bridge-mcp-server 只镜像/引用不主担。一仓一关注点、有独立会话工作区。
   - **dogfood 用临时目录，不建仓**（P2 验证链即可，产物不长期保留）。
   - **现有仓承接**：selection↔options 协议 v3 → fullstack-param-protocol（S3 纪律）；底座债 P3 → 三底座/bridge/能力层；收编 → memory/claude + bootstrap REPOS + review。
-  - **壳无关暴露（现期）**：全工作流即使单壳也经 MCP 消费 → 规格/authoring 作为**独立 MCP 面现期实现**（authoring-spec 仓自带 spec/authoring server，与生成面 bridge-mcp-server 分开、各自演进，守面分离不变量）；玩法/模板经 resource 暴露、确定性校验经 tool，语义仍在消费壳。不因"只有单壳"推迟。
+  - **壳无关暴露（现期）**：全工作流即使单壳也经 MCP 消费 → 规格/authoring 作为**独立 MCP 面现期实现**（authoring-spec 仓自带 spec/authoring server，与生成面 bridge-mcp-server 分开、各自演进，守面分离不变量）；玩法/模板经 resource 暴露、authoring 运行体经 tool（校验为运行体内部步骤、不暴露），语义仍在消费壳。不因"只有单壳"推迟。
   - 可选给 series-overview 状态表/待办加一行指针（待确认）。
 - **P1（规格族定义，DESIGN-first）**：
   - 规格 schema/模板族：方向规格 → func-spec（含操作层，主真源）→ pages（页面细节真源）→ arch/data/api/resolution（spec 文档族：决策项 + 可执行方案）；**字段集先定**（S3 式：先本表/协议 SCHEMA，再同步消费方）；
   - 玩法族：authoring 运行体及其**内部子玩法**（fact→spec，persona 内联）+ 拆解/实现承接玩法 + 设计敏感点事实引导（子玩法）；
   - 校验项：规格完整性 / 可判性（规则"机器可判"）/ **自包含检查（spec 不依赖任何具体底座；方案与决策逐条 trace 到事实/不变式）** / trace 无孤儿；评估是否工具化；
-  - **规格/authoring MCP server 面**（authoring-spec 仓内，一面一 server，现期实现）：玩法/规格模板作 resource、规格完整性/可判校验作确定性 tool、**authoring 运行体作工具**（黑盒「一句话→spec」）；DESIGN 定工具边界（不入语义、不搬生成逻辑）+ LLM 适配层能力基线；生成面 bridge-mcp-server 不动。
+  - **规格/authoring MCP server 面**（authoring-spec 仓内，一面一 server，现期实现）：玩法/规格模板作 resource、**authoring 运行体作工具**（黑盒「一句话→spec」）；**校验为运行体内部确定性步骤、不对外暴露**；DESIGN 定工具边界（不入语义、不搬生成逻辑）+ LLM 适配层能力基线；生成面 bridge-mcp-server 不动。
 - **P2（dogfood）**：选真实题材（积分管理系统为候选）→ 人扮演上游跑 authoring 玩法产 spec 文档族 → **生成面落地：适配 spec → 定参 → 生成** → 下游对照 specs 填业务 → **启动连通冒烟** → 复盘（含下游页面消费端的 L-c 视觉工序是否触发）。
 - **P3（回喂）**：底座可运行性 CI、文档漂移自检、dev/`api_base_url` 贯通、CONTRACT 悬挂引用等 dogfood 咬出的债；step3 触发目录内容随各底座 selection（§7）落库。
 - **bridge-mcp-server 生成玩法职责重构（gate：上游 spec→生成路径在 P2 走通后）**：`generate_project_guide` / generate-project skill 的「需求澄清 + 选型引导 + 落参对话」（L0–L3）被上游取代——上游 authoring 产出 **spec（决策项 + 可执行级技术方案，§4 决议 6）**，不读底座、不选参。生成面玩法改为**读 spec → 适配底座菜单（options/selection）→ 定参 → 生成**：需求澄清与产品含义拍板已在上游完成，生成玩法不再引导需求、不做语义猜选型；**技术栈档位（react/vue/底座组合等）不进 spec**——生成侧读底座 **selection 自省**收敛参数（2026-09-08 定）；仅当 selection 无法唯一收敛（多个底座组合等价承载同一决策项组）才给一次技术口味确认（带默认）。authoring 与生成面的契约 = spec 文档族。**保留**：六生成/内省工具、templates.yaml + combos 菜单（= 底座候选集）、server 本体、桥执行链。单端零注册路径是否需最小引导，届时一并评估（不预先删除）。
@@ -144,7 +144,8 @@ authoring 设计 ② 不需知道底座——**底座 = 落地时优先复用的
 - **spec 承载技术方案的形态（2026-09-08 决议 6 展开）**：三层落地——约束/不变式（必）；机制类别方案 + 端点**实现编排规格** + 量级退化路径（必，敏感端点才给编排，api 模板增强项）；具体产品/技术落位（可入 spec 作设计表达；落地复用底座、冲突以底座等效为准，决议 6）。端点实现编排的环节 = 机制类别档（原子预占 / 异步投递 / 消费落库 / 定时兜底），带目的 + 失败去向 + 衔接；退化路径注明量级未达时的简化形态。
 - **spec 决策项 ↔ 底座 options/selection 适配（生成面/底座侧，非 authoring 层）**：适配 = **LLM 读 spec + 底座协议自省**（机制沿用 bridge 既有自省，事实源由用户 prompt 变为 spec 文档族）；selection 分**底座级**（底座形态 / 假定包络策展）与**选项级**（每 param options 带 rationale / disabled）两级（2026-09-08 定）；**技术栈档位一律以 selection 为唯一来源自省，spec 不携带任何档位偏好**；authoring 出决策项后该映射为下游设计项（S3 纪律升版：SCHEMA 本表 → 两消费方 SELECTION_FIELDS → 三底座 regen → 桥合并）。
 - 工程规格四表模板（data/api/pages/slices）与拆解玩法（含覆盖矩阵/done 定义）。
-- 规格校验的确定性检查项清单（traceability / 规则无歧义 / 操作可落端点）。
+- 规格校验的确定性检查项清单（traceability / 规则无歧义 / 操作可落端点）——**绑本层产物的内部自检项**。
+- **通用设计规格评审（未来独立能力）**：消费**任意**设计规格的质量检测 agent / MCP server，与 authoring 解耦（本层校验只绑本层产物）；触发 = 出现"对任意设计规格做质量检测"的需求（下游只要产物、不要我们的自检工具，故本层不暴露校验）。
 - 需求澄清问题库的"问题类型"结构（跨领域，非领域答案）。
 - **互联网调研/时效信息的归属（随层边界下移，2026-09-08）**：authoring 侧推导以用户事实为准，不引入外部选型 rails；若确需行业惯例/时效信息支撑**设计默认建议**（如订单超时常见时长），调研作为 authoring 玩法内的可选语义步骤（归壳执行，必交产物：结论 + 来源 + 日期，仅作默认建议、用户事实仍优先）。底座**参数选取前**的"rails 内调研（菜单有据择一 / 验证时效）、越界走闸"归下游生成面/底座适配段（见本节「spec 决策项 ↔ 底座 options/selection 适配」条）。
 - **契约层（下游立项候选：独立仓 + 独立 MCP 面，SDD「产 edge 规范」实例，2026-09-08 排查）**：消费 spec → 产 **per-edge md 契约**（copier 渲染、协议为模板参数、md 协议感知）；**真协议（.proto/openapi/schema）由各仓 AI 照 md 开发**（AI 实现物，非契约层产物）；语义层一致性校验（前置、确定性）+ 实现后对拍闸。触发 = spec 服务拓扑=拆分 / 多单元（ui-bff 三单元为第一验证点）。spec 输入前提：接口产物三类 + operation→单元归属→edge 集 + 协议决策（authoring P1 schema）。**未对齐待办（立项 DESIGN 前逐条定）**：①与 fullstack-bridge 边界（谁产哪类 edge、防双套契约体系）；②client-facing(api.md) 与 internal edge 是否重复；③事件 1→N 与点对点 edge 载体；④operation→单元→edge 推导链落 spec；⑤edge 语义接口的 answers 可提取粒度；⑥**md 真源 vs AI 产 proto 的漂移管理（SDD vs gRPC 运行时现实，最高优先）**；⑦对拍闸形态（确定性工具 vs AI review）；⑧per-edge md 落点/流转；⑨契约层与生成面（spec→多仓骨架能力扩展）先后与编排。
