@@ -94,6 +94,8 @@ authoring 设计 ② 不需知道底座——**底座 = 落地时优先复用的
 当某段玩法**膨胀到超出提示词驱动合理区**（玩法文本过长挤占注意力、步骤需活跃跨步状态/记忆、或流程需内部循环回溯如"规格→校验→回改"，靠文本驱动不稳）时，**把该段玩法编译成我们维护的专用 agent 运行体**：运行体在内部按相位加载子玩法、自管上下文/状态/确定性闸，对外只暴露"接受任务 → 返回产物"。壳从"执行复杂步骤"退位为"调用一个能力"，壳上下文干净——**不是给壳拆更多提示词，是把执行体收归我们**。
 
 - **触发判据（度量实现时定）**：单段玩法文本长度进入注意力退化区间；步骤需跨步状态、壳单次上下文承载不了；流程需内部循环/回溯；该段被反复调用、值得稳定执行体。此时玩法"退化"为 agent 应用，不再依赖壳的长上下文跟随。
+- **authoring 层已触发升级（2026-09-08 定案）**：四条判据全中（玩法文本随深度收敛越注意力区 / 跨步状态[多文档 trace + 初判→验证→迭代] / 内部回环[规格→校验→回改] / 反复调用）→ **authoring 整体升级为一个 agent 运行体**。要点：(a) **黑盒单能力**——对外只暴露「一句话需求 → spec 设计」，澄清 / 功能地图 / 设计 / 校验均为**内部工作流子节点**，不对外分段（分段是站在我们视角切，徒增下游负担）；(b) 黑盒 ≠ 无交互——中途提问经 MCP elicitation / needs-input + 续跑，对下游仍是"调一个能力"；(c) **状态在目标项目 `specs/`（非会话内）** → 中断恢复与将来 A2A 化均无需另造机制；(d) **抽象决议与执行载体解耦**——本档全部决议（层边界 / 决策项 / 能力卡 / edge / 功能地图 / 初判验证迭代 / 设计深度）复用不改，仅"载体层表述"更新（"玩法 = 文本 canonical" → "玩法素材 = 运行体内部子玩法"）；(e) 收益：壳更薄、更壳无关（壳只需"调工具 + 转达问题 + 拿产物"）。
+- **运行体 LLM 可插拔（2026-09-08）**：运行体需 LLM 做语义步骤 → 适配层解耦、**不绑供应商**：默认借壳（**MCP sampling**，零配置、谁接谁付），可替代为外部 LLM（base_url/key/model 经参数/环境传入），两者皆无 → **fail-fast**。适配层只承诺**能力基线**内（工具调用 / 多轮 / system prompt / 结构化输出 / 上下文）的模型；**确定性步骤（校验 / 闸 / trace）不经 LLM**——"智能留壳"据此重述为分布：运行体内部 = 语义步骤用 LLM（可插拔）+ 确定性步骤用工具。
 - **暴露形态：MCP 与 A2A 并存（按场景，非二选一；2026-09-08 修订）**：运行体内核只有一份，暴露协议是适配层——
   - **MCP（本地壳调用 · 当前仅此）**：agent 运行体藏在 MCP tool 后，壳"调工具 = 提交任务 = 拿回产物"（中途的提问经 elicitation / needs-input 续跑），只需接 server、无需 A2A——对壳最轻、最壳无关；
   - **A2A（能力服务化 / 跨运行时对等委派 · 需要时再加）**：要把该能力做成服务、被别的运行时的 agent 委派时走 A2A，与 MCP 不冲突。**状态在文件（非会话内）→ 任务与状态解耦，A2A 化无需重构内核。**
@@ -118,16 +120,16 @@ authoring 设计 ② 不需知道底座——**底座 = 落地时优先复用的
 ## 6. 落地拆分
 
 - **P0（本仓，本次）**：本方向文档定稿；立项决策如下（2026-09-05 定）：
-  - **新立项：上游 authoring 规格仓**（建议名 `authoring-spec`，候选 `ai-foundation-spec-chain` / `fullstack-func-spec`，命名待创建时确认）——承载 ①规格 schema/模板族单一真源（方向/功能/页面设计/架构/接口/数据 **spec 文档族：决策项 + 可执行技术方案**）②玩法 canonical（persona 内联）③规格校验 ④**自带规格/authoring MCP server 面**（一面一 server：资源=玩法/模板 + 确定性校验 tool，不入语义）；bridge-mcp-server 只镜像/引用不主担。一仓一关注点、有独立会话工作区。
+  - **新立项：上游 authoring 规格仓**（建议名 `authoring-spec`，候选 `ai-foundation-spec-chain` / `fullstack-func-spec`，命名待创建时确认）——承载 ①规格 schema/模板族单一真源（方向/功能/页面设计/架构/接口/数据 **spec 文档族：决策项 + 可执行技术方案**）②玩法素材（authoring 运行体**内部**子玩法，persona 内联）③规格校验 ④**自带规格/authoring MCP server 面**（一面一 server：资源=玩法/模板 + 确定性校验 tool + **authoring 运行体工具**，不入语义）⑤**authoring 运行体（agent）**——对外只暴露 MCP 工具「一句话需求 → spec 设计」（黑盒、不分段）；内部工作流子节点（澄清/功能地图/设计/校验）；中途提问经 elicitation/续跑；状态在目标项目 `specs/`；LLM 适配层（默认借壳 sampling / 可外部传入 / 皆无 fail-fast）；bridge-mcp-server 只镜像/引用不主担。一仓一关注点、有独立会话工作区。
   - **dogfood 用临时目录，不建仓**（P2 验证链即可，产物不长期保留）。
   - **现有仓承接**：selection↔options 协议 v3 → fullstack-param-protocol（S3 纪律）；底座债 P3 → 三底座/bridge/能力层；收编 → memory/claude + bootstrap REPOS + review。
   - **壳无关暴露（现期）**：全工作流即使单壳也经 MCP 消费 → 规格/authoring 作为**独立 MCP 面现期实现**（authoring-spec 仓自带 spec/authoring server，与生成面 bridge-mcp-server 分开、各自演进，守面分离不变量）；玩法/模板经 resource 暴露、确定性校验经 tool，语义仍在消费壳。不因"只有单壳"推迟。
   - 可选给 series-overview 状态表/待办加一行指针（待确认）。
 - **P1（规格族定义，DESIGN-first）**：
   - 规格 schema/模板族：方向规格 → func-spec（含操作层，主真源）→ pages（页面细节真源）→ arch/data/api/resolution（spec 文档族：决策项 + 可执行方案）；**字段集先定**（S3 式：先本表/协议 SCHEMA，再同步消费方）；
-  - 玩法族：authoring 上游玩法（fact→spec，persona 内联）+ 拆解/实现承接玩法 + 设计敏感点事实引导（子玩法）；
+  - 玩法族：authoring 运行体及其**内部子玩法**（fact→spec，persona 内联）+ 拆解/实现承接玩法 + 设计敏感点事实引导（子玩法）；
   - 校验项：规格完整性 / 可判性（规则"机器可判"）/ **自包含检查（spec 不依赖任何具体底座；方案与决策逐条 trace 到事实/不变式）** / trace 无孤儿；评估是否工具化；
-  - **规格/authoring MCP server 面**（authoring-spec 仓内，一面一 server，现期实现）：玩法/规格模板作 resource、规格完整性/可判校验作确定性 tool；DESIGN 定工具边界（不入语义、不搬生成逻辑）；生成面 bridge-mcp-server 不动。
+  - **规格/authoring MCP server 面**（authoring-spec 仓内，一面一 server，现期实现）：玩法/规格模板作 resource、规格完整性/可判校验作确定性 tool、**authoring 运行体作工具**（黑盒「一句话→spec」）；DESIGN 定工具边界（不入语义、不搬生成逻辑）+ LLM 适配层能力基线；生成面 bridge-mcp-server 不动。
 - **P2（dogfood）**：选真实题材（积分管理系统为候选）→ 人扮演上游跑 authoring 玩法产 spec 文档族 → **生成面落地：适配 spec → 定参 → 生成** → 下游对照 specs 填业务 → **启动连通冒烟** → 复盘（含下游页面消费端的 L-c 视觉工序是否触发）。
 - **P3（回喂）**：底座可运行性 CI、文档漂移自检、dev/`api_base_url` 贯通、CONTRACT 悬挂引用等 dogfood 咬出的债；step3 触发目录内容随各底座 selection（§7）落库。
 - **bridge-mcp-server 生成玩法职责重构（gate：上游 spec→生成路径在 P2 走通后）**：`generate_project_guide` / generate-project skill 的「需求澄清 + 选型引导 + 落参对话」（L0–L3）被上游取代——上游 authoring 产出 **spec（决策项 + 可执行级技术方案，§4 决议 6）**，不读底座、不选参。生成面玩法改为**读 spec → 适配底座菜单（options/selection）→ 定参 → 生成**：需求澄清与产品含义拍板已在上游完成，生成玩法不再引导需求、不做语义猜选型；**技术栈档位（react/vue/底座组合等）不进 spec**——生成侧读底座 **selection 自省**收敛参数（2026-09-08 定）；仅当 selection 无法唯一收敛（多个底座组合等价承载同一决策项组）才给一次技术口味确认（带默认）。authoring 与生成面的契约 = spec 文档族。**保留**：六生成/内省工具、templates.yaml + combos 菜单（= 底座候选集）、server 本体、桥执行链。单端零注册路径是否需最小引导，届时一并评估（不预先删除）。
@@ -146,6 +148,7 @@ authoring 设计 ② 不需知道底座——**底座 = 落地时优先复用的
 - **互联网调研/时效信息的归属（随层边界下移，2026-09-08）**：authoring 侧推导以用户事实为准，不引入外部选型 rails；若确需行业惯例/时效信息支撑**设计默认建议**（如订单超时常见时长），调研作为 authoring 玩法内的可选语义步骤（归壳执行，必交产物：结论 + 来源 + 日期，仅作默认建议、用户事实仍优先）。底座**参数选取前**的"rails 内调研（菜单有据择一 / 验证时效）、越界走闸"归下游生成面/底座适配段（见本节「spec 决策项 ↔ 底座 options/selection 适配」条）。
 - **契约层（下游立项候选：独立仓 + 独立 MCP 面，SDD「产 edge 规范」实例，2026-09-08 排查）**：消费 spec → 产 **per-edge md 契约**（copier 渲染、协议为模板参数、md 协议感知）；**真协议（.proto/openapi/schema）由各仓 AI 照 md 开发**（AI 实现物，非契约层产物）；语义层一致性校验（前置、确定性）+ 实现后对拍闸。触发 = spec 服务拓扑=拆分 / 多单元（ui-bff 三单元为第一验证点）。spec 输入前提：接口产物三类 + operation→单元归属→edge 集 + 协议决策（authoring P1 schema）。**未对齐待办（立项 DESIGN 前逐条定）**：①与 fullstack-bridge 边界（谁产哪类 edge、防双套契约体系）；②client-facing(api.md) 与 internal edge 是否重复；③事件 1→N 与点对点 edge 载体；④operation→单元→edge 推导链落 spec；⑤edge 语义接口的 answers 可提取粒度；⑥**md 真源 vs AI 产 proto 的漂移管理（SDD vs gRPC 运行时现实，最高优先）**；⑦对拍闸形态（确定性工具 vs AI review）；⑧per-edge md 落点/流转；⑨契约层与生成面（spec→多仓骨架能力扩展）先后与编排。
 - **authoring 层待办（2026-09-08 收尾记录）**：①功能地图相位（LLM 判类型→推功能菜单→用户拍→再收集事实，修"推荐漏引导"）；②spec schema 增补：arch 结构节（服务图/多仓布局建议）、部署形态建议节、接口产物三类 + operation 归属；③skill 按决议 6 / A–F / 设计深度 / 产品名可写作最新版复测（商城应带出推荐、下单端点给机制类别/产品名编排）；④authoring-spec 立项（P1 DESIGN）；⑤dogfood（积分/商城）验证设计深度与契约层输入链。
+- **authoring 运行体（agent）待设计项（2026-09-08）**：内部工作流子节点划分与相位加载；交互中断机制（elicitation / needs-input + 续跑）与壳侧契约；状态持久化在 `specs/` 的中断恢复；LLM 适配层能力基线与多后端（sampling / 外部）；运行体内部**确定性步骤清单**（不经 LLM）。
 
 ## 8. 证据与引用
 
