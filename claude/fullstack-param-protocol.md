@@ -18,7 +18,7 @@
 
 ## 关键不变量（开发时不得违背，来自 SCHEMA.md / 历轮评审）
 
-> ⚠️ **2026-09-15 决议（待落地，尚未动码）**：`selection` 区**退役**（孤儿真源——消费者仅桥与能力层两处引用，均只服务已被删的推荐链），本仓协议回**单区**（`schema_version` v2→v3），下面两条含 `selection` 的不变量与「selection 字段集契约」小节随之下线。收益：复杂度坍缩 + **收回一条靠纪律的手工同步协议**（防漂移）。判据与落地拆分见 `../ai-foundation-memory/direction-scope-narrowing.md`（P1）。
+> ⚠️ **2026-09-15 决议：`selection` 区退役 → 已搁置（不做，尚未动码）**。`selection` 是**孤儿真源**（消费者仅桥与能力层两处引用，均只服务已被删的推荐链）；退役本可让协议回**单区**（`schema_version` v2→v3）并收回一条靠纪律的手工同步协议，但该改造**与 dogfood 无关**（属"扩张式清理"），故搁置。**下面两条含 `selection` 的不变量在搁置期间照旧有效。** 解除条件见 `../ai-foundation-memory/direction-scope-narrowing.md` §4.4。
 
 - **params.json 分两区（schema_version=2）**：
   - `params` = copier 派生区，与 copier.yml 做 **hash 校验**（`source_copier_yml_hash`），regen 全量重算；

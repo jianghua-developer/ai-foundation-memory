@@ -1,7 +1,7 @@
 # 方向：系列边界收窄 —— 只对「已定型的规格 → 骨架」负责
 
 - 决议日期：**2026-09-15**
-- 决议状态：**方向定稿**（表述已定；三笔收窄待落地，见 §7）
+- 决议状态：**方向定稿 + 系列收手**（2026-09-15）。三笔收窄与落地阶段的终态见 §4.4 / §7：表述已收口；MCP 玩法收窄（P4a）**保留待做**；`selection` 退役（P1–P3）**搁置**。
 - 性质：系列规划文档（本目录）。落地跨仓改动走既定节奏：所属仓 DESIGN/SCHEMA 先行 → 分阶段执行 → ai-foundation-review 评审 → 报告归档 → 同步回 series-overview 状态表/待办。
 - 心智归属：本方向**收窄** series-overview「心智模型：SDD」的作用域，并**停止** `direction-spec-chain.md` 的上游规格生产段。
 
@@ -12,6 +12,8 @@
 > 要什么 / 选什么 / 设计什么 → 需要判断 → 留在对话。
 
 对外只有一个能力面：**已定型的规格 → 项目骨架**。业务需求与设计回归**对话 + 活文档**（CLAUDE.md / memory / ADR / **代码本身**），不在系列范围内。
+
+> **后续动作（§4.4）：收手**——不再开新方向，聚焦 **底座开发**（做）+ **dogfood**（判）。
 
 ## 1. 背景与动机
 
@@ -76,7 +78,7 @@
 2. **无消费者的真源不该存在。**
 3. **中间产物只有在「消费它的机器不是我们造的」时才活**（消费方是 copier / CI / 编译器 → 活；是对话 → 等价于对话，而对话能直达代码）。
 
-## 4. 三笔收窄（决议）
+## 4. 决议（三笔收窄 + 收手）
 
 ### 4.1 表述收窄
 
@@ -116,6 +118,31 @@
 
 **已检查的替身用途**："货架陈列的说明文字"——落在同一格（判不动的人摆了也判不了），替身不成立，结论闭合。
 
+### 4.4 收手（2026-09-15）——系列后续动作
+
+**决议**：系列**停止扩张**（不再开新方向），后续聚焦两块：
+
+| 聚焦 | 角色 | 为什么它属于"能被机器判定" |
+|---|---|---|
+| **底座开发** | **做** | 产出可机器判定：能不能生成、生成物能不能跑（CI / 冒烟 / copier 渲染） |
+| **dogfood** | **判** | 判据的来源与维持——**判据来自写、靠判活着**；dogfood 即那个"判" |
+
+**来由**：一个月的实践撞到**最有价值的一堵墙**——上游规格生产段的八次否决收敛到「独立于对话与代码的中间产物」生态位为空（§1）。它值钱在于**不随模型变强而消失**：判定成本随产出复杂度**超线性**增长，产出能力涨则判定负担同步涨——属**结构性**而非能力性，故"等下一代模型"绕不过去。
+
+**衍生判据（本决议后长期有效）**：§0 那句升格为两用——
+
+- **筛子**：任何新提议先过"产出能被机器判定吗"；
+- **刹车**：判定成本降不下来（或判定路径根本不存在）的部分，不做。
+
+**§7 各阶段的终态**：
+
+| 阶段 | 终态 | 理由 |
+|---|---|---|
+| **P4a**（MCP 玩法：删 L1/L2/L3，改问栈 + 报货架全集） | ▶ **做** | 与 dogfood 直接相关——dogfood 会调生成面，不删就会自填栈（= 退回语料主峰） |
+| **P1–P3 / P4b**（`selection` 退役 · 协议回单区 · 三底座 · 桥合并） | ⏸ **搁置**（不做） | 与 dogfood 无关；收益只是简洁，成本是 4 仓 + 评审 + 三底座 regen——**那仍是扩张，只是扩张的是清理** |
+
+**搁置的解除条件**（任一触发即重启 P1–P3）：① dogfood 咬到 `selection`（如生成的组合/参数面与策展不一致造成的实际问题）；② §6 证伪条件 #2 或 #3 成立。
+
 ## 5. 方案对比（被否的候选）
 
 | 候选 | 内容 | 否决理由 |
@@ -135,16 +162,17 @@
 
 **顺序纪律：先定表述 → 推出收窄 → 最后收口元信息。** 反过来（先退役再改表述）就是又一次"仓内已停、元信息还说它是主线"。
 
-| 阶段 | 仓 | 动作 |
-|---|---|---|
-| **P0** | `ai-foundation-memory` | 本文 + series-overview 对齐 + 收敛不变量标注 + `direction-spec-chain.md` 停止标记 |
-| **P1**（先行） | `fullstack-param-protocol` | SCHEMA.md 两区 → 单区、`schema_version` v2→v3、`gen-params.py` 去 selection 归一/轮转保留、双区校验 → 单区、删「selection 字段集契约」节、hooks/workflows/tests 对齐 |
-| **P2** | 三个底座 | `params.json` 去 `selection` 区 + CI/钩子单区化（走 base-onboarding 复制步骤 + `GEN_PARAMS_VERSION` 指纹） |
-| **P3** | `fullstack-bridge` | `combos.py` 去 `SELECTION_FIELDS` + merge；**combo 段 `suited_for`/`tradeoffs` 退役** → `combos.yaml` 回到本职（unit 列表 + version 基线）；53 测试对齐 |
-| **P4** | `bridge-mcp-server` | `protocol.py` 去 `SELECTION_FIELDS` / `selection_warning`；`guide.py` 玩法改「**问栈 + 报货架全集 + 参数面内省 + 生成**」；`protocol.py` 与桥重复的读取逻辑合并；28 测试对齐 |
-| **P5** | `ai-foundation-review` | 跨仓评审 → 报告归档 → series-overview 状态表回写 |
+| 阶段 | 仓 | 动作 | 终态（§4.4） |
+|---|---|---|---|
+| **P0** | `ai-foundation-memory` | 本文 + series-overview 对齐 + 收敛不变量标注 + `direction-spec-chain.md` 停止标记 | ✅ **已做**（2026-09-15） |
+| **P1** | `fullstack-param-protocol` | SCHEMA.md 两区 → 单区、`schema_version` v2→v3、`gen-params.py` 去 selection 归一/轮转保留、双区校验 → 单区、删「selection 字段集契约」节、hooks/workflows/tests 对齐 | ⏸ **搁置** |
+| **P2** | 三个底座 | `params.json` 去 `selection` 区 + CI/钩子单区化（走 base-onboarding 复制步骤 + `GEN_PARAMS_VERSION` 指纹） | ⏸ **搁置** |
+| **P3** | `fullstack-bridge` | `combos.py` 去 `SELECTION_FIELDS` + merge；**combo 段 `suited_for`/`tradeoffs` 退役** → `combos.yaml` 回到本职（unit 列表 + version 基线） | ⏸ **搁置** |
+| **P4a** | `bridge-mcp-server` | `guide.py` 玩法改「**问栈 + 报货架全集 + 参数面内省 + 生成**」（删 L1 过滤 / L2 推荐 / L3 确认） | ▶ **做** |
+| **P4b** | `bridge-mcp-server` | `protocol.py` 去 `SELECTION_FIELDS` / `selection_warning`；与桥重复的读取逻辑合并 | ⏸ **搁置**（随 P1–P3） |
+| **P5** | `ai-foundation-review` | 跨仓评审 → 报告归档 → series-overview 状态表回写 | 随实际落地的阶段走 |
 
-**每阶段先改所属仓 DESIGN/SCHEMA，再动码。** P1 是 S3 纪律升版路径的**反向操作**，同步顺序按"SCHEMA 本表 → 两消费方 → 三底座 regen → 桥合并"的逆序执行需在 P1 设计里显式写清。
+**每阶段先改所属仓 DESIGN/SCHEMA，再动码。** 搁置期间备忘：P1 是 S3 纪律升版路径的**反向操作**，重启时同步顺序须按"SCHEMA 本表 → 两消费方 → 三底座 regen → 桥合并"的逆序，并在 P1 设计里显式写清。
 
 ## 8. 证据与引用
 

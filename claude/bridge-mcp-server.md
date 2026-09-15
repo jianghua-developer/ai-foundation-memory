@@ -8,12 +8,13 @@
 
 @../ai-foundation-memory/series-overview.md
 
-## ⚠️ 2026-09-15 决议：生成面**收窄**（非退役）——待落地，尚未动码
+## ⚠️ 2026-09-15 决议：生成面**收窄**（非退役）——玩法（P4a）**待做**；`selection` 相关（P4b）**搁置**
 
 - **删（推断）**：L1 确定性过滤（`stack`/`form` 子串匹配 = 启发式推断）、L2 有界推荐（`suited_for`/`tradeoffs` 排序）、L3 确认闸门。§下面「L1/L2/L3 覆盖」条与「selection 单一真源」条随之失效。
 - **留（采集）**：**直接问用户使用何技术栈** + **报货架全集**（无排序 = 事实）+ 参数面内省（native/derived/internal/shared = "该问什么"的依据）+ 生成。六工具、server 本体、桥执行链**保留**。
-- **连带**：`selection` 区退役 → `bridge_mcp/protocol.py` 的 `SELECTION_FIELDS` / `selection_warning` 删除；`protocol.py` 与桥 `combos.py` 重复的读取逻辑（实现重复，非职能）合并。`templates.yaml` / `combos.yaml` 菜单**保留**，定位改为**货架全集陈列**。
-- 判据与落地拆分见 `../ai-foundation-memory/direction-scope-narrowing.md`（P4）。
+- **终态**：玩法改造（`guide.py`）**待做**——与 dogfood 直接相关（dogfood 会调生成面，不删就会自填栈）；`protocol.py` 的 `SELECTION_FIELDS` / `selection_warning` 与"与桥重复的读取逻辑合并"**随 `selection` 退役一并搁置**。
+- `templates.yaml` / `combos.yaml` 菜单**保留**，定位改为**货架全集陈列**。
+- 判据与落地拆分见 `../ai-foundation-memory/direction-scope-narrowing.md`（§4.4 / §7）。
 
 ## 关键架构约束（来自 DESIGN.md，开发时不得违背）
 
