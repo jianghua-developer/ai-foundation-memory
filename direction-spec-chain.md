@@ -1,7 +1,15 @@
 # 方向：Authoring 规格链 —— 把「一句话 → 可运行系统」的每段接缝做成壳无关的规格生产能力
 
+> ## ⛔ 本方向的「上游规格生产段」已停止（2026-09-15）
+>
+> **不再推进**：authoring 规格链本体——spec 决策项文档族 + agent 运行体 + 其 MCP 面（§0/§2/§3/§4 决议、§5、§6 中上游段、§7 中标注「已收敛进 `ai-foundation-spec-chain` 仓 DESIGN」的各条）。
+> **停止理由 / 沿途实测 / 可复用判据**：`ai-foundation-spec-chain/docs/EVALUATION.md`（八次否决 · 五条判据 · 盲测四组 · 渲染链路实测）。
+> **仍然现行、不受影响**：本档 §7 中与**下游**有关的条目——**服务间契约整合层**、bridge 单元生成层与跨服务层的分工、契约层规则/索引/事件形态/合规校验执行者。它们不属被停止的上游段。
+> **已被取代**：§7 中涉及 `selection` 自省与 spec↔底座适配的条目（含"技术栈档位以 selection 为唯一来源"）——见 `direction-scope-narrowing.md`（`selection` 退役）。
+> **系列边界收窄决议**（只对「已定型的规格 → 骨架」负责）见 `direction-scope-narrowing.md`。
+
 - 决议日期：2026-09-05（修订 2026-09-08）
-- 决议状态：**方向定稿 + 上游已立项**。2026-09-08 经多轮收敛：边界（fact→spec / 自包含 / 不读底座）· 设计深度（可执行级）· **authoring agent 化**（黑盒单能力）· **立项 `ai-foundation-spec-chain`（本地仓）**——authoring 层具体设计已移入该仓 `docs/DESIGN.md`，本档只留方向层与跨仓项。
+- 决议状态：**已停止（2026-09-15）**。原为「方向定稿 + 上游已立项」——2026-09-08 经多轮收敛：边界（fact→spec / 自包含 / 不读底座）· 设计深度（可执行级）· **authoring agent 化**（黑盒单能力）· **立项 `ai-foundation-spec-chain`（本地仓）**；该仓已于 2026-09-15 停止，本档转为**档案**（下游条目仍现行，见上）。
 - 性质：系列规划文档（本目录）。落地跨仓改动走既定节奏：所属仓 DESIGN 先行 → 分阶段执行 → ai-foundation-review 评审 → 报告归档 → 同步回 series-overview 状态表/待办。
 - 心智归属：本方向 = 系列「**规范驱动开发（SDD）**」在 authoring 层的落地实例——authoring 是规范的生产段（fact→spec，spec = 决策项 + 可执行设计）；SDD 定义见 series-overview「心智模型：SDD」节。
 

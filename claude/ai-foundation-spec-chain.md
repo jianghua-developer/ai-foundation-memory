@@ -1,5 +1,9 @@
 # ai-foundation-spec-chain · authoring 规格链（上游规格仓）
 
+> ⛔ **本仓已停止（2026-09-15）**。下文为**停止前**的项目定位与设计要点，保留作**负结果档案**的背景；**不要据此推进**。
+> 停止理由、沿途实测与五条可复用判据见仓内 [`docs/EVALUATION.md`](docs/EVALUATION.md)；[`docs/DESIGN.md`](docs/DESIGN.md) 顶部亦有停止声明（转"负结果档案"，事实源转为 EVALUATION.md）。
+> 系列边界收窄决议（只对「已定型的规格 → 骨架」负责）见 `../ai-foundation-memory/direction-scope-narrowing.md`。
+
 本项目是 AI Foundation 系列的**上游规格生产能力**：把「一句话需求」经 authoring agent 收敛成 **spec 决策项文档族**（SDD 规范驱动开发的**规范生产段**）。对下游是**黑盒单能力**——对外只暴露「一句话需求 → spec 设计」。
 
 系列元信息（系列目的 / 总体设计思路 / 当前状态 / 姊妹底座位置 / copier 位置）由下方共享文件导入，只需维护一份：

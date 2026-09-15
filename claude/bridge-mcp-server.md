@@ -8,6 +8,13 @@
 
 @../ai-foundation-memory/series-overview.md
 
+## ⚠️ 2026-09-15 决议：生成面**收窄**（非退役）——待落地，尚未动码
+
+- **删（推断）**：L1 确定性过滤（`stack`/`form` 子串匹配 = 启发式推断）、L2 有界推荐（`suited_for`/`tradeoffs` 排序）、L3 确认闸门。§下面「L1/L2/L3 覆盖」条与「selection 单一真源」条随之失效。
+- **留（采集）**：**直接问用户使用何技术栈** + **报货架全集**（无排序 = 事实）+ 参数面内省（native/derived/internal/shared = "该问什么"的依据）+ 生成。六工具、server 本体、桥执行链**保留**。
+- **连带**：`selection` 区退役 → `bridge_mcp/protocol.py` 的 `SELECTION_FIELDS` / `selection_warning` 删除；`protocol.py` 与桥 `combos.py` 重复的读取逻辑（实现重复，非职能）合并。`templates.yaml` / `combos.yaml` 菜单**保留**，定位改为**货架全集陈列**。
+- 判据与落地拆分见 `../ai-foundation-memory/direction-scope-narrowing.md`（P4）。
+
 ## 关键架构约束（来自 DESIGN.md，开发时不得违背）
 
 - **双路径 × 双链**：单端（②-⑥）= git 地址 + 底座协议（params.json）自述、零注册（`generate_single`），直读不进桥；多端（① N≥2）= combos.yaml 注册组合、**纯 cli** 消费桥生成面（`list_combos`/`get_combo_params`/`generate_multi`，均经桥 cli `--json`）。治理链桥 `check` 服务 CI workflow，不进 server。

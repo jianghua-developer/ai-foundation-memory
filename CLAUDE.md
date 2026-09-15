@@ -46,10 +46,11 @@
 
 > 均为历轮评审/设计收敛定案，代价高；多数可复用、不值得再争。索引只给归属文档，细节去那读。
 
-- **规范驱动开发（SDD）＝系列心智总纲**：规范是唯一真源与接缝；AI 从规范产出一切实现（代码/真协议/页面）；底座与校验抬下限、判断留壳与人。authoring 规格链（上游 = 规范生产段 fact→spec）与 per-edge 契约层均为其实例 → series-overview「心智模型：SDD」节 + `direction-spec-chain.md`。
+- **系列边界＝「已定型的规格 → 骨架」**（2026-09-15 定，**伞不变量**）：系列**只做能被机器判定的那一段**——生成可校验 / 契约可校验 / 漂移可校验 → 进系列；**要什么 / 选什么 / 设计什么 → 需要判断 → 留对话**。业务需求与设计不在范围内；但**骨架的设计（参数面 / 接缝 / 机制类别 / 契约形态）在**——抬下限发生在这里。系列重心 = **整合契约**（生成 = 一次性产物；漂移治理 = 持续维护）。判据：无排序的陈列是事实、有排序的陈列是意见；无消费者的真源不该存在 → `direction-scope-narrowing.md`。
+- **规范驱动开发（SDD）＝系列心智总纲**：规范是唯一真源与接缝；**AI 从规范产出实现**（代码/真协议/页面）；底座与校验抬下限、判断留壳与人。per-edge 契约层为核心实例。**作用域收窄（2026-09-15）**：系列只做「已定型的规格 → 骨架」；**规范的生产（需求→设计 fact→spec）已停止、不在系列范围内**——authoring 规格链（`ai-foundation-spec-chain`）2026-09-15 停，`direction-spec-chain.md` 仅作档案 → series-overview「心智模型：SDD」节 + `direction-scope-narrowing.md`。
 - **面分离（一面一 server）**：生成面与治理面（check/契约维护）不混入同一 MCP server；同仓可并存多 server，各自独立演进 → bridge-mcp-server `docs/DESIGN.md`。
-- **双路径 × 双链**：单端 = 底座协议（params.json 两区）自述、零注册直读、不进桥；多端（N≥2）= 注册组合、**纯 cli** 消费桥生成面；server 不搬生成逻辑、桥不反向长单端逻辑 → bridge-mcp-server `docs/DESIGN.md`。
-- **selection 单一真源 / 两区协议**：`params`（派生+hash）/`selection`（策展+schema、gen-params 轮转保留）分区；深选择事实只在底座写一份；**桥只消费 + 叠加 combo 段不可约事实**，combo 段字段限 suited_for/tradeoffs → fullstack-param-protocol `SCHEMA.md` + fullstack-bridge `docs/DESIGN.md` §8。
-- **注册表是菜单不是门槛**：templates.yaml / combos.yaml 只服务引导；combo 段只放不可约事实、不抄 selection；spec 只收结构化参数、派生参数禁止传入；一管道一工具 → 协议仓 + bridge-mcp-server `docs/DESIGN.md` + fullstack-bridge `docs/DESIGN.md` §8。
+- **双路径 × 双链**：单端 = 底座协议（params.json 两区〔**2026-09-15 决议回单区，待落地**〕）自述、零注册直读、不进桥；多端（N≥2）= 注册组合、**纯 cli** 消费桥生成面；server 不搬生成逻辑、桥不反向长单端逻辑 → bridge-mcp-server `docs/DESIGN.md`。
+- **selection 单一真源 / 两区协议**〔⚠️ **2026-09-15 决议退役、待落地**：`selection` 为**孤儿真源**（消费者仅 `combos.py` / `protocol.py` 两处 `SELECTION_FIELDS`，均只服务已删的 L2 推荐）→ 协议回单区（`schema_version` v2→v3）、combo 段 `suited_for`/`tradeoffs` 一并退役；收益 = 复杂度坍缩 + **收回一条靠纪律的同步协议**（防漂移）。见 `direction-scope-narrowing.md` §4.3 / P1–P4〕：`params`（派生+hash）/`selection`（策展+schema、gen-params 轮转保留）分区；深选择事实只在底座写一份；**桥只消费 + 叠加 combo 段不可约事实**，combo 段字段限 suited_for/tradeoffs → fullstack-param-protocol `SCHEMA.md` + fullstack-bridge `docs/DESIGN.md` §8。
+- **注册表是菜单不是门槛**：templates.yaml / combos.yaml 只服务引导（**2026-09-15 起定位为「货架全集陈列」**——无排序的陈列是事实，不得退化为推荐排序）；spec 只收结构化参数、派生参数禁止传入；一管道一工具。〔原「combo 段只放不可约事实、不抄 selection」随 `selection` 退役一并失去对象〕→ 协议仓 + bridge-mcp-server `docs/DESIGN.md` + fullstack-bridge `docs/DESIGN.md` §8。
 - **参数面纪律**：原生参数默认字面值、派生参数 `when:false`；**共享参数 = 全链单一决策单值广播（U1 `shared:true`）**，不拆逐端命名空间 → fullstack-param-protocol `SCHEMA.md` + fullstack-bridge `docs/DESIGN.md` §6。
 - **契约先行 / 实现收敛 / copier 全链钉版本**：契约模板可引用派生参数、`{% yield %}` 仅限文件名；copier 版本跨链一致 → 各底座三件套 + fullstack-bridge `docs/DESIGN.md` §5.1/§11.12。

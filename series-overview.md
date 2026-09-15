@@ -5,13 +5,17 @@
 
 ## 系列目的
 
-让 AI 生成完整业务系统。底座不仅是脚手架，更是「AI 生成业务时的约束层/工程地基」——AI 产出的质量下限由底座抬高；前后端接口契约靠 fullstack-bridge 自动对齐。
+**只对「已定型的规格 → 项目骨架」负责**（业务需求与设计回归对话与活文档，不在本系列范围内）。底座不仅是脚手架，更是「AI 生成业务时的约束层/工程地基」——AI 产出的质量下限由底座抬高；前后端接口契约靠 fullstack-bridge 自动对齐。
+
+系列重心 = **整合契约**：一次性产物是骨架（生成面 + 桥执行链），持续维护是漂移治理（check / CI 门 / 版本基线）。边界决议与证伪条件见本仓 `direction-scope-narrowing.md`。
 
 ## 心智模型：规范驱动开发（SDD）
 
-全系列统一心智：**规范（spec）是开发的唯一真源与接缝**——需求由浅到深沉淀为规范（方向 → 功能 → 架构 → 工程 → 各层间契约），**AI 从规范产出一切实现**（代码 / 真协议 / 页面 / 中间件接入）；底座、模板与确定性校验抬高规范的产出下限；判断与取舍留在壳与人。系列目的据此定义为「规范逐步细化 + AI 从规范产出 + 校验兜底」的 **SDD 工程范式**（统一覆盖此前"契约先行 / 先文档后代码"等表述）。
+全系列统一心智：**规范（spec）是开发的唯一真源与接缝**——**AI 从规范产出实现**（代码 / 真协议 / 页面 / 中间件接入）；底座、模板与确定性校验抬高规范的产出下限；判断与取舍留在壳与人。系列目的据此定义为「规范逐步细化 + AI 从规范产出 + 校验兜底」的 **SDD 工程范式**（统一覆盖此前"契约先行 / 先文档后代码"等表述）。
 
-SDD 在 authoring 层的落地（上游 = 规范的生产段 fact→spec）见本仓规划文档 `direction-spec-chain.md`；各仓以 SDD 心智校准自身角色即可（产规范 / 从规范产出 / 抬规范下限三者之一）。
+**作用域（2026-09-15 收窄）**：系列只做「**已定型的规格 → 骨架**」这一段；**规范的生产（需求→设计）不在系列范围内**——回归对话与活文档。判据：**系列只做能被机器判定的那一段**（生成可校验 / 契约可校验 / 漂移可校验进系列；要什么 / 选什么 / 设计什么留对话）。
+
+**authoring 规格链（原「规范生产段」）已停止（2026-09-15）**：负结果与五条可复用判据见 `ai-foundation-spec-chain/docs/EVALUATION.md`；`direction-spec-chain.md` 仅作档案。各仓以 SDD 心智校准自身角色，收敛为**两者之一**：**从规范产出**（生成面 / 桥）或**抬规范下限**（底座 / 协议 / 校验）。边界收窄 + 三笔收窄（表述 / MCP 玩法 / `selection` 退役）见本仓 `direction-scope-narrowing.md`。
 
 ## 总体设计思路
 
@@ -46,7 +50,7 @@ SDD 在 authoring 层的落地（上游 = 规范的生产段 fact→spec）见�
 
 **契约约定**：契约模板（已是 copier）**可直接引用派生参数**（如 `{% for child in child_apps %}` 枚举）；`{% yield %}` 仅限文件名、正文禁用。
 
-## 目前状态（2026-09-05）
+## 目前状态（2026-09-15）
 
 > 每行只记「当前态」；演进历史见各仓 git 提交与 ai-foundation-review 报告。
 
@@ -59,10 +63,13 @@ SDD 在 authoring 层的落地（上游 = 规范的生产段 fact→spec）见�
 | frontend-template-copier（前端生成器） | 已发布 npm 0.0.1（前端模板已迁 copier，工具退役） |
 | fullstack-param-protocol（协议仓） | `gen-params.py`（copier 内省 → params.json）+ `SCHEMA.md`；uv 管理依赖（copier 钉版本）。**v2 两区已落 main（2026-09-05）**：`params`（派生+hash）/ `selection`（策展+schema、gen-params 轮转保留）+ 双区校验 + **全链 copier 9.17.1** + selection 字段集契约（db2e9a8/10dcbed/5f94b8d/2dda1ba）；已推送 |
 | bridge-mcp-server（能力层 MCP 封装） | **P3 生成面 server 已落地并推 origin main（2026-09-05）**：uv + FastMCP，六生成工具（单端 3+多端 3）+ 资源/玩法/壳侧 skill；**一面一 server**（治理面占位，check/契约维护不入）；桥入口纯 env（BRIDGE_EXE>BRIDGE，不暴露源码 cli.py）；严格 spec + 28 测试（含 MCP stdio/生成 e2e）；DESIGN/implementation-plan/README/入册 SOP 齐。P4 剩「未来组合就绪后验证 combo 段纪律」（待 python-vue / ui-bff-api）；治理面 MCP / 契约维护 Agent 见「后期待办」 |
+| ai-foundation-spec-chain（上游规格生产） | **已停止**（2026-09-15）——八次否决收敛为同一根因（人读的、与代码平行维护的中间产物生态位为空）；仓内存留**负结果档案 + 五条可复用判据 + 盲测/渲染实测证据**，不再推进 |
 
 **待办（主线）——2026-09-05 整理**（已完成项已归档，历史见各仓提交与 ai-foundation-review 报告）
 
-**主线方向（2026-09-05 定稿，未立项未动码）**：下阶段主线 = **authoring 规格链**（一句话 → 可运行系统：每段接缝的规格生产能力，规格 schema/玩法/校验 + 现期 spec/authoring MCP 面；上游规格仓 `authoring-spec`（待命名）承载，dogfood 临时目录）。完整决议/证伪条件/落地拆分见同仓 `direction-spec-chain.md`。本表"仅剩"待办是它的下游承接，不冲突。
+**主线方向（2026-09-15 定稿，待落地）**：下阶段主线 = **系列边界收窄**——① 表述收窄（只对「已定型的规格 → 骨架」负责）；② MCP 生成面玩法收窄（删 L1 过滤 / L2 推荐 / L3 确认，改「**问栈 + 报货架全集 + 参数面内省 + 生成**」）；③ 协议 `selection` 区退役（连带 combo 段 `suited_for`/`tradeoffs`）。完整决议 / 证伪条件 / 落地拆分（P0–P5，跨 4 仓）见本仓 `direction-scope-narrowing.md`。
+
+**原主线 authoring 规格链已停止**（2026-09-15，见 `ai-foundation-spec-chain/docs/EVALUATION.md`）；本表"仅剩"待办与原主线无关，照旧。
 
 ✅ 已收口：生成能力架构重构（桥 N≥2 + Click CLI + clone/baked）；bridge-mcp-server 评审收敛跨仓改动 ①-④（协议 v2 两区 / 三底座 selection+CI / 桥内省面 + R1/A2 + shared / 生成面 server，均已合 main 推送）。
 
@@ -90,7 +97,7 @@ SDD 在 authoring 层的落地（上游 = 规范的生产段 fact→spec）见�
 | python-fastapi-template | 后端底座（Python） | `~/project/python-fastapi-template` | `git@github.com:jianghua-developer/python-fastapi-template.git` |
 | vite-react-spa-template | 前端底座（React） | `~/project/vite-react-spa-template` | `git@github.com:jianghua-developer/vite-react-spa-template.git` |
 | vite-vue-spa-template | 前端底座（Vue） | `~/project/vite-vue-spa-template` | `git@github.com:jianghua-developer/vite-vue-spa-template.git` |
-| ai-foundation-spec-chain | 上游 authoring 规格链（SDD 规范生产段；立项 2026-09-08） | `~/project/ai-foundation-spec-chain` | `git@github.com:jianghua-developer/ai-foundation-spec-chain.git` |
+| ai-foundation-spec-chain | 上游 authoring 规格链（SDD 规范生产段；立项 2026-09-08，**已停止 2026-09-15**——留作负结果档案） | `~/project/ai-foundation-spec-chain` | `git@github.com:jianghua-developer/ai-foundation-spec-chain.git` |
 
 ## 评审报告归档（如何查找）
 
