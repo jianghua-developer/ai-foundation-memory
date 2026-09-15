@@ -65,11 +65,13 @@
 | frontend-template-copier（前端生成器） | 已发布 npm 0.0.1（前端模板已迁 copier，工具退役） |
 | fullstack-param-protocol（协议仓） | `gen-params.py`（copier 内省 → params.json）+ `SCHEMA.md`；uv 管理依赖（copier 钉版本）。**v2 两区已落 main（2026-09-05）**：`params`（派生+hash）/ `selection`（策展+schema、gen-params 轮转保留）+ 双区校验 + **全链 copier 9.17.1** + selection 字段集契约（db2e9a8/10dcbed/5f94b8d/2dda1ba）；已推送 |
 | bridge-mcp-server（能力层 MCP 封装） | **P3 生成面 server 已落地并推 origin main（2026-09-05）**：uv + FastMCP，六生成工具（单端 3+多端 3）+ 资源/玩法/壳侧 skill；**一面一 server**（治理面占位，check/契约维护不入）；桥入口纯 env（BRIDGE_EXE>BRIDGE，不暴露源码 cli.py）；严格 spec + 28 测试（含 MCP stdio/生成 e2e）；DESIGN/implementation-plan/README/入册 SOP 齐。P4 剩「未来组合就绪后验证 combo 段纪律」（待 python-vue / ui-bff-api）；治理面 MCP / 契约维护 Agent 见「后期待办」 |
-| ai-foundation-spec-chain（上游规格生产） | **已停止**（2026-09-15）——八次否决收敛为同一根因（人读的、与代码平行维护的中间产物生态位为空）；仓内存留**负结果档案 + 五条可复用判据 + 盲测/渲染实测证据**，不再推进 |
+| ai-foundation-spec-chain（上游规格生产） | **已停止**（2026-09-15）——八次否决收敛为同一根因（人读的、与代码平行维护的中间产物生态位为空）；仓内存留**负结果档案 + 五条可复用判据 + 盲测/渲染实测证据**（main `b9b2e6d`，已推 origin），不再推进 |
 
 **待办（主线）——2026-09-05 整理**（已完成项已归档，历史见各仓提交与 ai-foundation-review 报告）
 
 **主线方向（2026-09-15 定稿）**：**系列收手——不再开新方向**，后续聚焦 **① 底座开发**（做：产出可机器判定的约束层 / 契约 / 参数面）+ **② dogfood**（判：真实使用维持判据）。判据句「**只做能被机器判定的那一段**」长期两用：**筛子**（新提议先过它）+ **刹车**（判定路径不存在的部分不做）。
+
+**当前状态：搁置（2026-09-15 起）**——作者暂停投入、先去忙别的。恢复入口 = `direction-scope-narrowing.md` §4.4 / §7（待办只剩 P4a：`guide.py` 玩法收窄；`selection` 那条线挂着解除条件）。
 
 **边界收窄决议（2026-09-15，已收口）**：① 表述收窄 → 已同步进本文件与 `CLAUDE.md`；② MCP 生成面玩法收窄（删 L1 过滤 / L2 推荐 / L3 确认，改「**问栈 + 报货架全集 + 参数面内省 + 生成**」）→ **保留待做**（与 dogfood 相关）；③ 协议 `selection` 区退役（连带 combo 段 `suited_for`/`tradeoffs`）→ **搁置**（与 dogfood 无关；解除条件见方向档）。完整决议 / 证伪条件 / 阶段终态见本仓 `direction-scope-narrowing.md`。
 
